@@ -1,0 +1,10 @@
+[package]
+name = "brainctl"
+version = "0.1.0"
+edition = "2021"
+description = "brainctl command line interface"
+license = "Apache-2.0"
+repository = "https://github.com/cerebrai-app/brainctl"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
