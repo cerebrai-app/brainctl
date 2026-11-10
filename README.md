@@ -6,6 +6,24 @@ Command line interface (Rust).
 
 ```sh
 cargo run -- version
+cargo run -- init
+```
+
+### `init`
+
+Downloads a [python-build-standalone](https://github.com/astral-sh/python-build-standalone)
+distribution to `${XDG_DATA_HOME:-~/.local/share}/python-build-standalone/<version>+<build options>/`
+(for example `3.14.10+freethreaded+pgo+lto`). It does nothing if that directory already exists.
+
+Defaults to the newest Python 3.14 `freethreaded+pgo+lto` build. If that build isn't published for
+your platform (e.g. Windows has no LTO builds) it falls back to the next best build and says so.
+Downloads are verified against the release's `SHA256SUMS`.
+
+```sh
+brainctl init                              # python 3.14, freethreaded+pgo+lto
+brainctl init --python-version 3.13.9      # exact version
+brainctl init --variant pgo+lto            # exact build options, no fallback
+brainctl init --release 20261026           # pin a python-build-standalone release
 ```
 
 ## Development
