@@ -2,9 +2,46 @@
 
 Command line interface (Rust).
 
-## Install locally
+## Install
+
+### Prebuilt binary (no Rust needed)
+
+Tagged releases publish binaries on the
+[Releases page](https://github.com/cerebrai-app/brainctl/releases) for:
+
+| Platform | Target |
+| --- | --- |
+| Linux x86_64 | `x86_64-unknown-linux-gnu` |
+| Linux arm64 | `aarch64-unknown-linux-gnu` |
+| macOS Apple Silicon | `aarch64-apple-darwin` |
+| macOS Intel | `x86_64-apple-darwin` |
+| Windows x86_64 | `x86_64-pc-windows-msvc` |
+
+With the [GitHub CLI](https://cli.github.com) (also works if the repo is private):
+
+```sh
+gh release download --repo cerebrai-app/brainctl --pattern '*x86_64-unknown-linux-gnu*'   # pick your target
+shasum -a 256 -c brainctl-*.tar.gz.sha256
+tar xzf brainctl-*.tar.gz
+install -m 755 brainctl-*/brainctl ~/.local/bin/    # any directory on your PATH
+```
+
+On Windows, download the `.zip`, extract it, and put `brainctl.exe` in a directory on your `PATH`.
+
+### From source, without cloning
 
 Requires a [Rust toolchain](https://rustup.rs) (stable).
+
+```sh
+cargo install --git https://github.com/cerebrai-app/brainctl --locked
+# or a specific release:
+cargo install --git https://github.com/cerebrai-app/brainctl --tag v0.1.0 --locked
+```
+
+This builds and installs to `~/.cargo/bin` (`%USERPROFILE%\.cargo\bin` on Windows), which rustup
+normally puts on your `PATH`. Re-run the command with `--force` to upgrade.
+
+### From a local clone
 
 ```sh
 git clone https://github.com/cerebrai-app/brainctl
@@ -12,15 +49,7 @@ cd brainctl
 cargo install --path . --locked
 ```
 
-This builds a release binary and installs it to `~/.cargo/bin` (`%USERPROFILE%\.cargo\bin` on
-Windows), which rustup normally puts on your `PATH`. Check it with:
-
-```sh
-brainctl version
-```
-
-To upgrade, `git pull` and re-run the `cargo install` command (it replaces the old binary).
-To remove it, run `cargo uninstall brainctl`.
+Check the install with `brainctl version`. To remove it, run `cargo uninstall brainctl`.
 
 ## Usage
 
@@ -55,3 +84,11 @@ cargo clippy --all-targets -- -D warnings
 cargo test
 cargo build --release
 ```
+
+## Releasing
+
+1. Bump `version` in `Cargo.toml` (and commit the updated `Cargo.lock`).
+2. Tag and push: `git tag v<version> && git push origin v<version>`.
+
+The `Release` workflow checks that the tag matches `Cargo.toml`, builds every target, and publishes
+a GitHub Release with the archives and `.sha256` files.
