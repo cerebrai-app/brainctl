@@ -89,13 +89,8 @@ dependencies = [
 name = "brainctl"
 version = "0.1.0"
 dependencies = [
- "anyhow",
+ "cerebrai-python",
  "clap",
- "serde_json",
- "sha2",
- "tar",
- "ureq",
- "zstd",
 ]
 
 [[package]]
@@ -114,6 +109,19 @@ dependencies = [
  "jobserver",
  "libc",
  "shlex",
+]
+
+[[package]]
+name = "cerebrai-python"
+version = "0.1.0"
+source = "git+https://github.com/cerebrai-app/cerebrai-crates?tag=v0.1.0#e66bc25e60a27b14a78b67c64a2bf0a73d900294"
+dependencies = [
+ "anyhow",
+ "serde_json",
+ "sha2",
+ "tar",
+ "ureq",
+ "zstd",
 ]
 
 [[package]]
